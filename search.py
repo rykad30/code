@@ -100,24 +100,24 @@ def depthFirstSearch(problem:SearchProblem)->List[Direction]:
         INSÉREZ VOTRE SOLUTION À LA QUESTION 1 ICI
     '''
    
-    s = problem.getStartState()
-    L = util.Stack() 
-    L.push((s, []))
-    visited= set()
-    while L.isEmpty() is False:
-        s, chemin = L.pop()
-        if s in visited:
+    state = problem.getStartState()
+    stack = util.Stack() 
+    stack.push((state, []))
+    visited = set()
+    while stack.isEmpty() is False:
+        state, path = stack.pop()
+        if state in visited:
             continue
-        visited.add(s)
-        if problem.isGoalState(s)==True:
-            return chemin
+        visited.add(state)
+        if problem.isGoalState(state)==True:
+            return path
         
-        C=problem.getSuccessors(s)
+        successors=problem.getSuccessors(state)
         
-        for i in range(len(C)):
-            if C[i][0] not in visited:
+        for i in range(len(successors)):
+            if successors[i][0] not in visited:
 
-                L.push((C[i][0],chemin+[C[i][1]]))
+                stack.push((successors[i][0],path+[successors[i][1]]))
     return []
 
 
@@ -133,7 +133,6 @@ def breadthFirstSearch(problem:SearchProblem)->List[Direction]:
         INSÉREZ VOTRE SOLUTION À LA QUESTION 2 ICI
     '''
 
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem:SearchProblem)->List[Direction]:
     """Search the node of least total cost first."""
