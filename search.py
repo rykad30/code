@@ -132,6 +132,25 @@ def breadthFirstSearch(problem:SearchProblem)->List[Direction]:
     '''
         INSÉREZ VOTRE SOLUTION À LA QUESTION 2 ICI
     '''
+    state = problem.getStartState()
+    queue = util.Queue() 
+    queue.push((state, []))
+    visited = set()
+    while queue.isEmpty() is False:
+        state, path = queue.pop()
+        if state in visited:
+            continue
+        visited.add(state)
+        if problem.isGoalState(state)==True:
+            return path
+        
+        successors=problem.getSuccessors(state)
+        
+        for i in range(len(successors)):
+            if successors[i][0] not in visited:
+
+                queue.push((successors[i][0],path+[successors[i][1]]))
+    return []
 
 
 def uniformCostSearch(problem:SearchProblem)->List[Direction]:
