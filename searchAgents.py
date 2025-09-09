@@ -294,6 +294,13 @@ class CornersProblem(search.SearchProblem):
         '''
             INSÉREZ VOTRE SOLUTION À LA QUESTION 5 ICI
         '''
+        corners_left = frozenset(self.corners)
+        for corner in corners_left:
+            if self.startingPosition==corner:
+                corners_left = corners_left - {corner} 
+
+
+        self.start = (self.startingPosition, corners_left)
 
 
     def getStartState(self):
@@ -306,7 +313,7 @@ class CornersProblem(search.SearchProblem):
             INSÉREZ VOTRE SOLUTION À LA QUESTION 5 ICI
         '''
         
-        util.raiseNotDefined()
+        return self.start
 
     def isGoalState(self, state):
         """
@@ -316,8 +323,10 @@ class CornersProblem(search.SearchProblem):
         '''
             INSÉREZ VOTRE SOLUTION À LA QUESTION 5 ICI
         '''
-
-        util.raiseNotDefined()
+        if len(state[1])==0:
+            return True
+        else:
+            return False
 
     def getSuccessors(self, state):
         """
@@ -342,7 +351,14 @@ class CornersProblem(search.SearchProblem):
             '''
                 INSÉREZ VOTRE SOLUTION À LA QUESTION 5 ICI
             '''
-
+            x,y = state[0]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                corners_left = state[1]
+                if (nextx,nexty) in corners_left:
+                    corners_left=corners_left - {(nextx,nexty)}
+                successors.append( (((nextx, nexty), corners_left), action, 1) )
 
         self._expanded += 1 # DO NOT CHANGE
         return successors

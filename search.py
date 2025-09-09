@@ -169,8 +169,8 @@ def uniformCostSearch(problem:SearchProblem)->List[Direction]:
 
         if problem.isGoalState(state):
             return path
-
-        for successor, action, stepCost in problem.getSuccessors(state):
+        successors=problem.getSuccessors(state)
+        for successor, action, stepCost in successors:
             newCost = cost + stepCost
             if successor not in visited or visited[successor] > newCost:
                 priorityQueue.push((successor, path + [action], newCost), newCost)
@@ -189,7 +189,26 @@ def aStarSearch(problem:SearchProblem, heuristic=nullHeuristic)->List[Direction]
         INSÉREZ VOTRE SOLUTION À LA QUESTION 4 ICI
     '''
 
-    util.raiseNotDefined()
+    state = problem.getStartState()
+    priorityQueue = util.PriorityQueue()
+    priorityQueue.push((state, [], 0), heuristic(state,problem))
+    visited = dict()
+
+    while not priorityQueue.isEmpty():
+        state, path, cost = priorityQueue.pop()
+        if state in visited and visited[state] <= cost:
+            continue
+        visited[state] = cost
+
+        if problem.isGoalState(state):
+            return path
+        successors=problem.getSuccessors(state)
+        for successor, action, stepCost in successors:
+            newCost = cost + stepCost
+            totalCost=newCost+heuristic(successor, problem)
+            if successor not in visited or visited[successor] > newCost:
+                priorityQueue.push((successor, path + [action], newCost), totalCost)
+    return []
 
 
 # Abbreviations
