@@ -395,8 +395,15 @@ def cornersHeuristic(state, problem):
     '''
         INSÉREZ VOTRE SOLUTION À LA QUESTION 6 ICI
     '''
+    position, corners_left = state
+    distance = 0
+    for corner in corners_left:
+        distancex = position[0] - corner[0]
+        distancey = position[1] - corner[1]
+
+        distance = max(abs(distancex) + abs(distancey), distance)
     
-    return 0
+    return distance
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
