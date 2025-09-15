@@ -501,6 +501,36 @@ def foodHeuristic(state, problem: FoodSearchProblem):
         INSÉREZ VOTRE SOLUTION À LA QUESTION 7 ICI
     '''
 
+    distance=0
+    for food in foodGrid.asList():
 
+    
+        distance = max(breadthFirstSearch(problem,position,food), distance)
+    
+    return distance
+
+
+def breadthFirstSearch(problem:FoodSearchProblem,start,goalState):
+    if start==goalState:
+        return 0
+    walls = problem.walls
+    queue = util.Queue() 
+    queue.push((start, 0))
+    visited = set()
+    while queue.isEmpty() is False:
+        state, distance = queue.pop()
+        if state in visited:
+            continue
+        visited.add(state)
+        if state==goalState:
+            return distance
+        
+        for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+            x,y = state
+            dx, dy = Actions.directionToVector(direction)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not walls[nextx][nexty]:
+
+                queue.push( ((nextx, nexty), distance + 1) )
     return 0
 
